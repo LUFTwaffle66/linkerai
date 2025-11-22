@@ -130,40 +130,40 @@ export function LandingPage() {
     <div className="min-h-screen bg-black text-white">
       <Header />
 
-      {/* Hero Section */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+      {/* Hero Section - Increased spacing */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-24 md:py-32 lg:py-40">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Transform your business with<br />
-              <span className="text-indigo-500">AI automation</span> experts
+          <div className="text-center max-w-5xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
+              Transform your business with<br className="hidden sm:block" />
+              <span className="text-indigo-500"> AI automation</span> experts
             </h1>
-            <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 mb-12 sm:mb-16 max-w-3xl mx-auto leading-relaxed px-4">
               Connect with vetted AI specialists and automation engineers. From chatbots to workflow automation, find the perfect expert to streamline your operations and boost efficiency.
             </p>
 
-            {/* Search Box */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
+            {/* Search Box - More breathing room */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 sm:p-8 mb-8 sm:mb-10">
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-1 relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
                   <input
                     type="text"
                     placeholder="What AI automation do you need?"
-                    className="w-full bg-black border border-indigo-600 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-black border border-indigo-600 rounded-lg pl-12 pr-4 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base"
                   />
                 </div>
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-medium transition-colors whitespace-nowrap">
+                <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-medium transition-colors whitespace-nowrap text-base">
                   Search
                 </button>
               </div>
 
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-3 mt-6">
                 <span className="text-sm text-gray-400">Popular:</span>
                 {['AI Chatbot', 'Workflow Automation', 'Data Analysis', 'Custom AI Model'].map((tag) => (
                   <button
                     key={tag}
-                    className="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md text-sm transition-colors"
+                    className="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-colors"
                   >
                     {tag}
                   </button>
@@ -171,17 +171,17 @@ export function LandingPage() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            {/* CTA Buttons - Better spacing */}
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center max-w-lg mx-auto">
               <button
                 onClick={() => navigate('/signup')}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-lg font-medium transition-colors text-base"
               >
                 Hire AI Experts
               </button>
               <button
                 onClick={() => navigate('/signup')}
-                className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+                className="bg-gray-800 hover:bg-gray-700 text-white px-10 py-4 rounded-lg font-medium transition-colors text-base"
               >
                 Find Projects
               </button>
@@ -190,29 +190,29 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Browse by Expertise */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16">
+      {/* Browse by Expertise - More space between sections */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Browse by Expertise</h2>
-            <p className="text-gray-400">Find the right AI automation expert for your project</p>
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">Browse by Expertise</h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-400">Find the right AI automation expert for your project</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {categories.map((category) => {
               const Icon = category.icon;
               return (
                 <button
                   key={category.name}
-                  className="bg-gray-900/50 border border-gray-800 hover:border-indigo-600 rounded-xl p-6 transition-all text-left group"
+                  className="bg-gray-900/50 border border-gray-800 hover:border-indigo-600 rounded-xl p-6 sm:p-8 transition-all text-left group"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-indigo-600/20 rounded-lg flex items-center justify-center group-hover:bg-indigo-600/30 transition-colors">
-                      <Icon className="w-6 h-6 text-indigo-500" />
+                  <div className="flex items-center gap-4 sm:gap-5">
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-indigo-600/20 rounded-lg flex items-center justify-center group-hover:bg-indigo-600/30 transition-colors flex-shrink-0">
+                      <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-indigo-500" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-white mb-1">{category.name}</h3>
-                      <p className="text-sm text-gray-400">{category.count}</p>
+                      <h3 className="font-medium text-white mb-2 text-base sm:text-lg">{category.name}</h3>
+                      <p className="text-sm sm:text-base text-gray-400">{category.count}</p>
                     </div>
                   </div>
                 </button>
@@ -222,39 +222,39 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* How LinkerAI Works */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16">
+      {/* How LinkerAI Works - Better vertical rhythm */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 bg-gray-900/20">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How LinkerAI Works</h2>
-            <p className="text-gray-400">Simple, secure, and efficient</p>
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">How LinkerAI Works</h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-400">Simple, secure, and efficient</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 sm:gap-16 md:gap-20">
             <div className="text-center">
-              <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white font-bold text-2xl">1</span>
+              <div className="w-24 h-24 sm:w-28 sm:h-28 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                <span className="text-white font-bold text-3xl sm:text-4xl">1</span>
               </div>
-              <h3 className="font-semibold text-xl mb-3">Post Your Project</h3>
-              <p className="text-gray-400 leading-relaxed">
+              <h3 className="font-semibold text-xl sm:text-2xl mb-4 sm:mb-5">Post Your Project</h3>
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-sm mx-auto">
                 Describe your automation needs and get proposals from qualified AI experts within hours.
               </p>
             </div>
             <div className="text-center">
-              <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white font-bold text-2xl">2</span>
+              <div className="w-24 h-24 sm:w-28 sm:h-28 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                <span className="text-white font-bold text-3xl sm:text-4xl">2</span>
               </div>
-              <h3 className="font-semibold text-xl mb-3">Hire the Best</h3>
-              <p className="text-gray-400 leading-relaxed">
+              <h3 className="font-semibold text-xl sm:text-2xl mb-4 sm:mb-5">Hire the Best</h3>
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-sm mx-auto">
                 Review portfolios, technical skills, and ratings to find the perfect AI specialist for your needs.
               </p>
             </div>
             <div className="text-center">
-              <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-white font-bold text-2xl">3</span>
+              <div className="w-24 h-24 sm:w-28 sm:h-28 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                <span className="text-white font-bold text-3xl sm:text-4xl">3</span>
               </div>
-              <h3 className="font-semibold text-xl mb-3">Pay Safely</h3>
-              <p className="text-gray-400 leading-relaxed">
+              <h3 className="font-semibold text-xl sm:text-2xl mb-4 sm:mb-5">Pay Safely</h3>
+              <p className="text-gray-400 leading-relaxed text-base sm:text-lg max-w-sm mx-auto">
                 Our escrow system protects your payments until you're 100% satisfied with the automation delivered.
               </p>
             </div>
@@ -262,35 +262,35 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Featured Projects */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16">
+      {/* Featured Projects - Improved card spacing */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-12 sm:mb-16 gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Featured Projects</h2>
-              <p className="text-gray-400">Hand-picked opportunities from top companies</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">Featured Projects</h2>
+              <p className="text-base sm:text-lg text-gray-400">Hand-picked opportunities from top companies</p>
             </div>
-            <button className="hidden md:flex items-center gap-2 text-white hover:text-indigo-400 transition-colors">
+            <button className="hidden md:flex items-center gap-2 text-white hover:text-indigo-400 transition-colors whitespace-nowrap text-base">
               View All Projects
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             {featuredProjects.map((project) => (
               <div
                 key={project.id}
-                className="bg-gray-900/50 border border-gray-800 hover:border-indigo-600 rounded-xl p-6 transition-all cursor-pointer"
+                className="bg-gray-900/50 border border-gray-800 hover:border-indigo-600 rounded-xl p-6 sm:p-8 transition-all cursor-pointer"
               >
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-5 sm:mb-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0">
                       <span className="text-sm font-medium">{project.avatar}</span>
                     </div>
                     <div>
-                      <p className="font-medium">{project.company}</p>
+                      <p className="font-medium text-base sm:text-lg">{project.company}</p>
                       {project.verified && (
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 mt-1">
                           <CheckCircle className="w-3 h-3 text-green-500" />
                           <span className="text-xs text-green-500">Verified</span>
                         </div>
@@ -300,17 +300,17 @@ export function LandingPage() {
                   <span className="text-xs text-gray-500">{project.time}</span>
                 </div>
 
-                <h3 className="font-semibold text-lg mb-2">{project.title}</h3>
-                <p className="text-sm text-gray-400 mb-4 line-clamp-2">{project.description}</p>
+                <h3 className="font-semibold text-lg sm:text-xl mb-3 sm:mb-4 leading-snug">{project.title}</h3>
+                <p className="text-sm sm:text-base text-gray-400 mb-5 sm:mb-6 leading-relaxed line-clamp-2">{project.description}</p>
 
-                <div className="space-y-3">
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-indigo-400">
-                      <DollarSign className="w-4 h-4" />
+                <div className="space-y-4 sm:space-y-5">
+                  <div className="flex items-center gap-6 text-sm sm:text-base">
+                    <div className="flex items-center gap-2 text-indigo-400">
+                      <DollarSign className="w-5 h-5" />
                       <span className="font-medium">{project.budget}</span>
                     </div>
-                    <div className="flex items-center gap-1 text-gray-400">
-                      <Clock className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-gray-400">
+                      <Clock className="w-5 h-5" />
                       <span>{project.duration}</span>
                     </div>
                   </div>
@@ -319,15 +319,15 @@ export function LandingPage() {
                     {project.skills.map((skill, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 bg-gray-800 rounded text-xs"
+                        className="px-3 py-1.5 bg-gray-800 rounded-lg text-xs sm:text-sm"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
 
-                  <div className="pt-3 border-t border-gray-800">
-                    <p className="text-xs text-gray-500">{project.proposals} proposals</p>
+                  <div className="pt-4 sm:pt-5 border-t border-gray-800">
+                    <p className="text-sm text-gray-500">{project.proposals} proposals</p>
                   </div>
                 </div>
               </div>
@@ -336,68 +336,68 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Top AI Experts */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16">
+      {/* Top AI Experts - Better card layout */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 bg-gray-900/20">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-12 sm:mb-16 gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">Top AI Experts</h2>
-              <p className="text-gray-400">Hire vetted professionals with proven track records</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">Top AI Experts</h2>
+              <p className="text-base sm:text-lg text-gray-400">Hire vetted professionals with proven track records</p>
             </div>
-            <button className="hidden md:flex items-center gap-2 text-white hover:text-indigo-400 transition-colors">
+            <button className="hidden md:flex items-center gap-2 text-white hover:text-indigo-400 transition-colors whitespace-nowrap text-base">
               View All Experts
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             {topExperts.map((expert) => (
               <div
                 key={expert.id}
-                className="bg-gray-900/50 border border-gray-800 hover:border-indigo-600 rounded-xl p-6 transition-all cursor-pointer"
+                className="bg-gray-900/50 border border-gray-800 hover:border-indigo-600 rounded-xl p-6 sm:p-8 transition-all cursor-pointer"
               >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center">
-                    <span className="font-semibold text-lg">{expert.avatar}</span>
+                <div className="flex items-start gap-4 mb-5 sm:mb-6">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="font-semibold text-lg sm:text-xl">{expert.avatar}</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold">{expert.name}</h3>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="font-semibold text-base sm:text-lg truncate">{expert.name}</h3>
                       {expert.verified && (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                       )}
                     </div>
-                    <p className="text-sm text-gray-400 mb-2">{expert.title}</p>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-medium">{expert.rating}</span>
+                    <p className="text-sm sm:text-base text-gray-400 mb-3 leading-snug">{expert.title}</p>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      <span className="font-medium text-base">{expert.rating}</span>
                       <span className="text-sm text-gray-400">({expert.reviews} reviews)</span>
                     </div>
                     {expert.topRated && (
-                      <span className="inline-block px-2 py-1 bg-indigo-600/20 text-indigo-400 text-xs rounded border border-indigo-600/30">
+                      <span className="inline-block px-3 py-1 bg-indigo-600/20 text-indigo-400 text-xs rounded border border-indigo-600/30">
                         Top Rated
                       </span>
                     )}
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-400 mb-4 line-clamp-2">{expert.description}</p>
+                <p className="text-sm sm:text-base text-gray-400 mb-5 sm:mb-6 leading-relaxed line-clamp-2">{expert.description}</p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-5 sm:mb-6">
                   {expert.skills.map((skill) => (
-                    <span key={skill} className="px-2 py-1 bg-gray-800 rounded text-xs">
+                    <span key={skill} className="px-3 py-1.5 bg-gray-800 rounded-lg text-xs sm:text-sm">
                       {skill}
                     </span>
                   ))}
                 </div>
 
-                <div className="pt-4 border-t border-gray-800 space-y-2">
-                  <div className="flex items-center justify-between text-sm">
+                <div className="pt-5 border-t border-gray-800 space-y-3">
+                  <div className="flex items-center justify-between text-sm sm:text-base">
                     <span className="text-gray-400">Completed Jobs</span>
                     <span className="font-medium">{expert.completedJobs}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <MapPin className="w-3 h-3" />
+                  <div className="flex items-center gap-2 text-sm text-gray-400">
+                    <MapPin className="w-4 h-4" />
                     <span>{expert.location}</span>
                   </div>
                 </div>
@@ -407,33 +407,33 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="px-4 sm:px-6 lg:px-8 py-16">
+      {/* Testimonials - More breathing room */}
+      <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
-            <p className="text-gray-400">Join thousands of satisfied clients and AI experts</p>
+          <div className="text-center mb-12 sm:mb-16 md:mb-20">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">What Our Users Say</h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-400">Join thousands of satisfied clients and AI experts</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.name}
-                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6"
+                className="bg-gray-900/50 border border-gray-800 rounded-xl p-6 sm:p-8"
               >
-                <div className="flex items-center gap-1 mb-4">
+                <div className="flex items-center gap-1 mb-5 sm:mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-6 leading-relaxed">"{testimonial.content}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-medium">{testimonial.initials}</span>
+                <p className="text-gray-300 mb-6 sm:mb-8 leading-relaxed text-base sm:text-lg">"{testimonial.content}"</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-sm sm:text-base font-medium">{testimonial.initials}</span>
                   </div>
                   <div>
-                    <p className="font-medium">{testimonial.name}</p>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
+                    <p className="font-medium text-base sm:text-lg">{testimonial.name}</p>
+                    <p className="text-sm sm:text-base text-gray-400">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
