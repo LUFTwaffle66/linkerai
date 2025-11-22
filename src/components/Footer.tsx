@@ -1,4 +1,8 @@
+import { useLanguage } from '../contexts/LanguageContext';
+
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-gray-800 bg-black py-12 sm:py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,39 +14,38 @@ export function Footer() {
               </div>
               <span className="font-semibold text-lg sm:text-xl text-white">LinkerAI</span>
             </div>
-            <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">AI Automation Marketplace</p>
             <p className="text-sm sm:text-base text-gray-400 max-w-md leading-relaxed">
-              Connect with top AI automation professionals and transform your business with cutting-edge solutions.
+              {t('footer.tagline')}
             </p>
           </div>
 
           <div>
-            <h3 className="font-semibold text-white mb-4 sm:mb-6 text-base sm:text-lg">Company</h3>
+            <h3 className="font-semibold text-white mb-4 sm:mb-6 text-base sm:text-lg">{t('footer.company')}</h3>
             <ul className="space-y-3">
               <li>
                 <button className="text-gray-400 hover:text-white transition-colors text-sm sm:text-base">
-                  About Us
+                  {t('footer.about')}
                 </button>
               </li>
               <li>
                 <button className="text-gray-400 hover:text-white transition-colors text-sm sm:text-base">
-                  How It Works
+                  {t('footer.howItWorks')}
                 </button>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-white mb-4 sm:mb-6 text-base sm:text-lg">Support</h3>
+            <h3 className="font-semibold text-white mb-4 sm:mb-6 text-base sm:text-lg">{t('footer.support')}</h3>
             <ul className="space-y-3">
               <li>
                 <button className="text-gray-400 hover:text-white transition-colors text-sm sm:text-base">
-                  Help Center
+                  {t('footer.contact')}
                 </button>
               </li>
               <li>
                 <button className="text-gray-400 hover:text-white transition-colors text-sm sm:text-base">
-                  Contact Us
+                  {t('footer.privacy')}
                 </button>
               </li>
             </ul>
@@ -51,7 +54,7 @@ export function Footer() {
 
         <div className="mt-12 sm:mt-16 pt-8 border-t border-gray-800">
           <p className="text-center text-sm sm:text-base text-gray-500">
-            © 2025 LinkerAI. All rights reserved.
+            © 2025 LinkerAI. {t('footer.rights')}
           </p>
         </div>
       </div>
