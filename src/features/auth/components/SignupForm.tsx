@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase } from '../../../lib/supabase/client';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 type UserRole = 'client' | 'freelancer';
 
@@ -45,26 +46,31 @@ export function SignupForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Join LinkerAI as a client or freelancer
-          </p>
+    <div className="min-h-screen bg-black text-white flex items-center justify-center py-16 px-6 sm:px-8">
+      <div className="max-w-md w-full space-y-10">
+        <button
+          onClick={() => navigate('/')}
+          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span>Back to home</span>
+        </button>
+
+        <div className="text-center space-y-3">
+          <h1 className="text-4xl sm:text-5xl font-bold">Create your account</h1>
+          <p className="text-lg text-gray-400">Join LinkerAI as a client or freelancer</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+
+        <form className="space-y-8" onSubmit={handleSubmit}>
           {error && (
-            <div className="rounded-md bg-red-50 p-4">
-              <p className="text-sm text-red-800">{error}</p>
+            <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-4">
+              <p className="text-sm text-red-400">{error}</p>
             </div>
           )}
 
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="space-y-6">
             <div>
-              <label htmlFor="full-name" className="sr-only">
+              <label htmlFor="full-name" className="block text-sm font-medium text-gray-300 mb-2">
                 Full Name
               </label>
               <input
@@ -72,14 +78,15 @@ export function SignupForm() {
                 name="fullName"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
+                className="w-full px-5 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-indigo-600 transition-colors"
+                placeholder="Enter your full name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
+
             <div>
-              <label htmlFor="email-address" className="sr-only">
+              <label htmlFor="email-address" className="block text-sm font-medium text-gray-300 mb-2">
                 Email address
               </label>
               <input
@@ -88,14 +95,15 @@ export function SignupForm() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                className="w-full px-5 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-indigo-600 transition-colors"
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+
             <div>
-              <label htmlFor="password" className="sr-only">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <input
@@ -104,78 +112,77 @@ export function SignupForm() {
                 type="password"
                 autoComplete="new-password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                className="w-full px-5 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-indigo-600 transition-colors"
+                placeholder="Create a strong password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              I am a:
-            </label>
-            <div className="flex space-x-4">
-              <button
-                type="button"
-                onClick={() => setRole('client')}
-                className={`flex-1 py-2 px-4 border rounded-md text-sm font-medium ${
-                  role === 'client'
-                    ? 'bg-indigo-600 text-white border-indigo-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                Client
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('freelancer')}
-                className={`flex-1 py-2 px-4 border rounded-md text-sm font-medium ${
-                  role === 'freelancer'
-                    ? 'bg-indigo-600 text-white border-indigo-600'
-                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                }`}
-              >
-                Freelancer
-              </button>
-            </div>
-          </div>
-
-          {role === 'client' && (
             <div>
-              <label htmlFor="company-name" className="sr-only">
-                Company Name
+              <label className="block text-sm font-medium text-gray-300 mb-3">
+                I am a:
               </label>
-              <input
-                id="company-name"
-                name="companyName"
-                type="text"
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                placeholder="Company Name (optional)"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => setRole('client')}
+                  className={`py-4 px-6 rounded-xl text-base font-medium transition-all ${
+                    role === 'client'
+                      ? 'bg-indigo-600 text-white border-2 border-indigo-600'
+                      : 'bg-gray-900/30 text-gray-300 border-2 border-gray-800 hover:border-gray-700'
+                  }`}
+                >
+                  Client
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('freelancer')}
+                  className={`py-4 px-6 rounded-xl text-base font-medium transition-all ${
+                    role === 'freelancer'
+                      ? 'bg-indigo-600 text-white border-2 border-indigo-600'
+                      : 'bg-gray-900/30 text-gray-300 border-2 border-gray-800 hover:border-gray-700'
+                  }`}
+                >
+                  Freelancer
+                </button>
+              </div>
             </div>
-          )}
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-            >
-              {loading ? 'Creating account...' : 'Sign up'}
-            </button>
+            {role === 'client' && (
+              <div>
+                <label htmlFor="company-name" className="block text-sm font-medium text-gray-300 mb-2">
+                  Company Name (optional)
+                </label>
+                <input
+                  id="company-name"
+                  name="companyName"
+                  type="text"
+                  className="w-full px-5 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-indigo-600 transition-colors"
+                  placeholder="Your company name"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                />
+              </div>
+            )}
           </div>
 
-          <div className="text-center">
-            <a
-              href="/login"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-5 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-base"
+          >
+            {loading ? 'Creating account...' : 'Create account'}
+          </button>
+
+          <div className="text-center pt-2">
+            <button
+              type="button"
+              onClick={() => navigate('/login')}
+              className="text-gray-400 hover:text-white transition-colors"
             >
-              Already have an account? Sign in
-            </a>
+              Already have an account? <span className="text-indigo-400">Sign in</span>
+            </button>
           </div>
         </form>
       </div>
