@@ -3,19 +3,22 @@ import { getFreelancerProposals } from '../../../lib/api/proposals';
 import { ProposalWithProject } from '../../../types/database';
 import { FileText, DollarSign, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '@clerk/nextjs';
 
 export function FreelancerProposalsList() {
   const [proposals, setProposals] = useState<ProposalWithProject[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { isLoaded, user } = useUser();
 
   useEffect(() => {
-    loadProposals();
-  }, []);
+    if (!isLoaded || !user?.id) return;
+    loadProposals(user.id);
+  }, [isLoaded, user?.id]);
 
-  const loadProposals = async () => {
+  const loadProposals = async (clerkUserId: string) => {
     try {
-      const data = await getFreelancerProposals();
+      const data = await getFreelancerProposals(clerkUserId);
       setProposals(data);
     } catch (err) {
       console.error('Failed to load proposals:', err);

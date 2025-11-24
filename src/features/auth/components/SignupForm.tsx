@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { supabase } from '../../../lib/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { useSignUp } from '@clerk/nextjs';
+import { ensureProfile } from '../../../lib/api/profiles';
 
 type UserRole = 'client' | 'freelancer';
 
@@ -14,6 +15,7 @@ export function SignupForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { isLoaded, signUp, setActive } = useSignUp();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,23 +23,29 @@ export function SignupForm() {
     setError(null);
 
     try {
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email,
+      if (!isLoaded) {
+        throw new Error('Authentication is not ready yet.');
+      }
+
+      const result = await signUp.create({
+        emailAddress: email,
         password,
-        options: {
-          data: {
-            full_name: fullName,
-            role,
-            company_name: role === 'client' ? companyName : null,
-          },
-        },
+        firstName: fullName,
       });
 
-      if (signUpError) throw signUpError;
-
-      if (data.user) {
-        navigate(role === 'client' ? '/dashboard/client' : '/dashboard/freelancer');
+      if (result.status !== 'complete' || !result.createdSessionId || !result.createdUserId) {
+        throw new Error('Additional verification steps are required to complete sign up.');
       }
+
+      await setActive({ session: result.createdSessionId });
+
+      await ensureProfile(result.createdUserId, {
+        full_name: fullName,
+        company_name: role === 'client' ? companyName : null,
+        role,
+      });
+
+      navigate(role === 'client' ? '/dashboard/client' : '/dashboard/freelancer');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

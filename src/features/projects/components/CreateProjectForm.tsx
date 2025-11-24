@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { createProject } from '../../../lib/api/projects';
 import { X } from 'lucide-react';
+import { useUser } from '@clerk/nextjs';
 
 interface CreateProjectFormProps {
   onSuccess: () => void;
@@ -13,6 +14,7 @@ export function CreateProjectForm({ onSuccess, onCancel }: CreateProjectFormProp
   const [budget, setBudget] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +22,11 @@ export function CreateProjectForm({ onSuccess, onCancel }: CreateProjectFormProp
     setError(null);
 
     try {
-      await createProject({
+      if (!user?.id) {
+        throw new Error('You must be signed in to create a project.');
+      }
+
+      await createProject(user.id, {
         title,
         description,
         budget: parseFloat(budget),

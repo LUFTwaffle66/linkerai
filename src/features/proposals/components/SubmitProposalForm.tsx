@@ -3,6 +3,7 @@ import { createProposal } from '../../../lib/api/proposals';
 import { X } from 'lucide-react';
 
 interface SubmitProposalFormProps {
+  clerkUserId: string;
   projectId: string;
   projectTitle: string;
   projectBudget: number;
@@ -11,6 +12,7 @@ interface SubmitProposalFormProps {
 }
 
 export function SubmitProposalForm({
+  clerkUserId,
   projectId,
   projectTitle,
   projectBudget,
@@ -28,7 +30,7 @@ export function SubmitProposalForm({
     setError(null);
 
     try {
-      await createProposal({
+      await createProposal(clerkUserId, {
         project_id: projectId,
         cover_letter: coverLetter,
         bid_amount: parseFloat(bidAmount),

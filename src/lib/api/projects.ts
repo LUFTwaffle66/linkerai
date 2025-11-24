@@ -1,21 +1,18 @@
 import { supabase } from '../supabase/client';
 import { Project, ProjectWithProposalCount } from '../../types/database';
 
-export async function createProject(data: {
-  title: string;
-  description: string;
-  budget: number;
-}) {
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error('Not authenticated');
-  }
-
+export async function createProject(
+  clientClerkId: string,
+  data: {
+    title: string;
+    description: string;
+    budget: number;
+  },
+) {
   const { data: project, error } = await supabase
     .from('projects')
     .insert({
-      client_id: user.id,
+      client_id: clientClerkId,
       title: data.title,
       description: data.description,
       budget: data.budget,
@@ -28,17 +25,11 @@ export async function createProject(data: {
   return project as Project;
 }
 
-export async function getClientProjects(): Promise<ProjectWithProposalCount[]> {
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) {
-    throw new Error('Not authenticated');
-  }
-
+export async function getClientProjects(clientClerkId: string): Promise<ProjectWithProposalCount[]> {
   const { data: projects, error } = await supabase
     .from('projects')
     .select('*')
-    .eq('client_id', user.id)
+    .eq('client_id', clientClerkId)
     .order('created_at', { ascending: false });
 
   if (error) throw error;
@@ -54,7 +45,7 @@ export async function getClientProjects(): Promise<ProjectWithProposalCount[]> {
         ...project,
         proposal_count: count || 0,
       };
-    })
+    }),
   );
 
   return projectsWithCounts as ProjectWithProposalCount[];
@@ -79,7 +70,7 @@ export async function getProjectById(projectId: string): Promise<Project | null>
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') return null;
+    if ((error as { code?: string }).code === 'PGRST116') return null;
     throw error;
   }
 

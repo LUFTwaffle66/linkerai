@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { supabase } from '../../../lib/supabase/client';
+import { useUser } from '@clerk/nextjs';
+import { ensureProfile } from '../../../lib/api/profiles';
+import type { Profile } from '../../../types/database';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -8,46 +10,35 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
-  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    const loadProfile = async () => {
+      if (!isLoaded) return;
 
-      if (session?.user) {
-        setUser(session.user);
-
-        const { data: profile } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profile) {
-          setUserRole(profile.role);
-        }
+      if (!isSignedIn || !user?.id) {
+        setLoading(false);
+        return;
       }
 
-      setLoading(false);
+      try {
+        const ensuredProfile = await ensureProfile(user.id, {
+          full_name: user.fullName || null,
+        });
+        setProfile(ensuredProfile);
+      } catch (err) {
+        console.error('Failed to load profile', err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    checkAuth();
+    loadProfile();
+  }, [isLoaded, isSignedIn, user?.fullName, user?.id]);
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        setUser(session.user);
-      } else {
-        setUser(null);
-        setUserRole(null);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (loading) {
+  if (!isLoaded || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -58,12 +49,13 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
     );
   }
 
-  if (!user) {
+  if (!isSignedIn || !user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && userRole !== requiredRole) {
-    return <Navigate to={`/dashboard/${userRole}`} replace />;
+  if (requiredRole && profile?.role !== requiredRole) {
+    const fallbackPath = profile?.role ? `/dashboard/${profile.role}` : '/';
+    return <Navigate to={fallbackPath} replace />;
   }
 
   return <>{children}</>;

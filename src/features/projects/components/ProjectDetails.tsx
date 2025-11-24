@@ -3,8 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getProjectById } from '../../../lib/api/projects';
 import { getProposalsForProject, acceptProposal } from '../../../lib/api/proposals';
 import { Project, Proposal } from '../../../types/database';
-import { ArrowLeft, DollarSign, Calendar, CheckCircle, X } from 'lucide-react';
-import { supabase } from '../../../lib/supabase/client';
+import { ArrowLeft, DollarSign, Calendar, CheckCircle, CreditCard } from 'lucide-react';
+import { useUser } from '@clerk/nextjs';
+import { getProfileByClerkId } from '../../../lib/api/profiles';
 
 export function ProjectDetails() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -14,24 +15,23 @@ export function ProjectDetails() {
   const [loading, setLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [acceptingProposalId, setAcceptingProposalId] = useState<string | null>(null);
+  const { isLoaded, user } = useUser();
+
+  const acceptedProposal = proposals.find((proposal) => proposal.status === 'accepted');
 
   useEffect(() => {
     loadProjectDetails();
-    checkUserRole();
   }, [projectId]);
 
-  const checkUserRole = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+  useEffect(() => {
+    const checkUserRole = async () => {
+      if (!isLoaded || !user?.id) return;
+      const profile = await getProfileByClerkId(user.id);
+      setIsClient(profile?.role === 'client');
+    };
 
-    const { data: userData } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    setIsClient(userData?.role === 'client');
-  };
+    checkUserRole();
+  }, [isLoaded, user?.id]);
 
   const loadProjectDetails = async () => {
     if (!projectId) return;
@@ -147,6 +147,29 @@ export function ProjectDetails() {
           </div>
         </div>
       </div>
+
+      {isClient && acceptedProposal && project.status === 'in_progress' && (
+        <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+              <CreditCard className="w-5 h-5 text-indigo-300" />
+            </div>
+            <div>
+              <p className="text-sm text-indigo-100">Accepted bid amount</p>
+              <p className="text-xl font-semibold text-white">
+                ${acceptedProposal.bid_amount.toLocaleString()}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => navigate(`/project/${project.id}/checkout`)}
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold transition-colors"
+          >
+            <CreditCard className="w-4 h-4" />
+            Proceed to Stripe checkout
+          </button>
+        </div>
+      )}
 
       {isClient && (
         <div className="space-y-6">

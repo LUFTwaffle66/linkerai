@@ -5,6 +5,7 @@ import { checkExistingProposal } from '../../../lib/api/proposals';
 import { Project } from '../../../types/database';
 import { ArrowLeft, DollarSign, Calendar, CheckCircle } from 'lucide-react';
 import { SubmitProposalForm } from '../../proposals/components/SubmitProposalForm';
+import { useUser } from '@clerk/nextjs';
 
 export function FreelancerProjectDetail() {
   const { projectId } = useParams<{ projectId: string }>();
@@ -13,18 +14,20 @@ export function FreelancerProjectDetail() {
   const [loading, setLoading] = useState(true);
   const [showProposalForm, setShowProposalForm] = useState(false);
   const [hasProposal, setHasProposal] = useState(false);
+  const { isLoaded, user } = useUser();
 
   useEffect(() => {
-    loadProjectDetails();
-  }, [projectId]);
+    if (!isLoaded || !user?.id) return;
+    loadProjectDetails(user.id);
+  }, [isLoaded, projectId, user?.id]);
 
-  const loadProjectDetails = async () => {
+  const loadProjectDetails = async (clerkUserId: string) => {
     if (!projectId) return;
 
     try {
       const [projectData, existingProposal] = await Promise.all([
         getProjectById(projectId),
-        checkExistingProposal(projectId),
+        checkExistingProposal(projectId, clerkUserId),
       ]);
 
       setProject(projectData);
@@ -130,8 +133,9 @@ export function FreelancerProjectDetail() {
         </div>
       </div>
 
-      {showProposalForm && project && (
+      {showProposalForm && project && user?.id && (
         <SubmitProposalForm
+          clerkUserId={user.id}
           projectId={project.id}
           projectTitle={project.title}
           projectBudget={project.budget}
