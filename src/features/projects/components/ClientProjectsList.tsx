@@ -4,16 +4,19 @@ import { ProjectWithProposalCount } from '../../../types/database';
 import { Plus, Briefcase, DollarSign, MessageSquare } from 'lucide-react';
 import { CreateProjectForm } from './CreateProjectForm';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '@clerk/nextjs';
 
 export function ClientProjectsList() {
   const [projects, setProjects] = useState<ProjectWithProposalCount[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const navigate = useNavigate();
+  const { isLoaded, user } = useUser();
 
   const loadProjects = async () => {
+    if (!user?.id) return;
     try {
-      const data = await getClientProjects();
+      const data = await getClientProjects(user.id);
       setProjects(data);
     } catch (err) {
       console.error('Failed to load projects:', err);
@@ -23,8 +26,9 @@ export function ClientProjectsList() {
   };
 
   useEffect(() => {
+    if (!isLoaded || !user?.id) return;
     loadProjects();
-  }, []);
+  }, [isLoaded, user?.id]);
 
   const handleCreateSuccess = () => {
     setShowCreateForm(false);

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { supabase } from '../../../lib/supabase/client';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { useSignIn } from '@clerk/nextjs';
+import { ensureProfile, getProfileByClerkId } from '../../../lib/api/profiles';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { isLoaded, signIn, setActive } = useSignIn();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,23 +18,28 @@ export function LoginForm() {
     setError(null);
 
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
+      if (!isLoaded) {
+        throw new Error('Authentication is not ready yet.');
+      }
+
+      const result = await signIn.create({
+        identifier: email,
         password,
       });
 
-      if (signInError) throw signInError;
+      if (result.status !== 'complete' || !result.createdSessionId) {
+        throw new Error('Additional authentication steps are required.');
+      }
 
-      if (data.user) {
-        const { data: profile } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', data.user.id)
-          .single();
+      await setActive({ session: result.createdSessionId });
 
-        if (profile) {
-          navigate(profile.role === 'client' ? '/dashboard/client' : '/dashboard/freelancer');
-        }
+      const clerkUserId = result.createdUserId;
+      if (clerkUserId) {
+        const profile = await getProfileByClerkId(clerkUserId);
+        const ensuredProfile = profile || (await ensureProfile(clerkUserId));
+        navigate(ensuredProfile.role === 'freelancer' ? '/dashboard/freelancer' : '/dashboard/client');
+      } else {
+        navigate('/');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
